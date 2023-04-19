@@ -2,7 +2,7 @@ Shader "Calculator/ModelDamageColorShader"
 {
     Properties
     {
-        _Radius ("radius", Float) = .001
+        _Radius ("radius", Integer) = 1
         _Quality ("quality", Range(0, 1)) = 1
         _Threshold ("outline threshold", Range(.6, 1)) = .9
         _Brightness ("outline brightness", Range(-1, 1)) = .5
@@ -69,17 +69,18 @@ Shader "Calculator/ModelDamageColorShader"
             {
                 bool outline = false;
 
-                float r2 = _Radius * _Radius;
+                float floatRadius = (_Radius + 1) / _ScreenParams.y;
+                float r2 = floatRadius * floatRadius;
                 half3 normal = getNormal(i.uv);
 
-                float aspect = _ScreenParams.x / _ScreenParams.y;
+                float aspect = _ScreenParams.y / _ScreenParams.x;
                 float yStep = (1 / _ScreenParams.y) / _Quality;
                 float xStep = (1 / _ScreenParams.x) / _Quality;
 
-                for (float y = yStep; y < _Radius * aspect; y += yStep)
+                for (float y = yStep; y < floatRadius; y += yStep)
                 {
                     float yScl = y / aspect;
-                    float x2Lim = r2 - yScl * yScl;
+                    float x2Lim = (r2 - y * y) * aspect;
                     for (float x = 0; x * x < x2Lim; x += xStep)
                     {
                         if( checkNormal(i.uv + float2(x, y), normal) || 
@@ -98,8 +99,8 @@ Shader "Calculator/ModelDamageColorShader"
                 }
 
                 float damage = tex2D(_ModelPartTexture, i.uv) * 1024;
-                if(damage == 0)
-                    return fixed4(0, 0, 0, 0);
+                // if(damage == 0)
+                //     return fixed4(0, 0, 0, 0);
                 int hits = (100 / damage);
                 float theta = -UNITY_TWO_PI * _ColorRange * saturate(((float) hits) / _MaxHits);
                 half3 color = half3(
@@ -115,6 +116,8 @@ Shader "Calculator/ModelDamageColorShader"
                     color += _Brightness;
 
                 return fixed4(color, 1);
+                // return outline;
+                // return half4(getNormal(i.uv), 1);
                 
             }
             ENDCG
