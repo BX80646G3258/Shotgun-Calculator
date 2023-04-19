@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class CalculatorFeature : ScriptableRendererFeature
 {
-    public Vector2[] spreadPattern;
+    // public Vector2[] spreadPattern;
     public Material partColorPassMat;
     public Material damagePassMat;
     public Material damageSpreadMat;
@@ -19,13 +19,10 @@ public class CalculatorFeature : ScriptableRendererFeature
     FilterRenderPass modelDamagePass;
     FilterRenderPass damageSpreadPass;
     FilterRenderPass damagePatternPass;
-    int spreadPatternID = Shader.PropertyToID("_SpreadPattern");
 
     /// <inheritdoc/>
     public override void Create()
     {
-        UpdateSpreadPattern();
-
         normalRenderPass = new NormalRenderPass();
         modelPartPass = new ModelPartRenderPass();
         modelDepthPass = new ModelDepthRenderPass();
@@ -61,14 +58,7 @@ public class CalculatorFeature : ScriptableRendererFeature
         renderer.EnqueuePass(damageColorPass);
     }
 
-    public void UpdateSpreadPattern()
-    {
-        List<Vector4> vec4Array = new List<Vector4>();
-        foreach (Vector2 v2 in spreadPattern)
-            vec4Array.Add(new Vector4(v2.x, v2.y, 0, 0));
-        damagePatternMat.SetVectorArray(spreadPatternID, vec4Array);
-        Debug.Log("updated spread pattern");
-    }
+
 }
 
 
