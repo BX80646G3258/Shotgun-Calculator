@@ -119,8 +119,8 @@ public class HitboxLoader : MonoBehaviour
                     else
                     {
                         BoxCollider collider = hitbox.AddComponent<BoxCollider>();
-                        collider.size = direction;
-
+                        
+                        collider.size = Abs(direction);
                         rotation = new Vector3(-rotation.z, -rotation.x, rotation.y);
                         Quaternion orderedRotation = Quaternion.identity;
                         orderedRotation *= Quaternion.AngleAxis(rotation.z, Vector3.forward);
@@ -184,6 +184,11 @@ public class HitboxLoader : MonoBehaviour
     Vector3 Mul(Vector3 v1, Vector3 v2)
     {
         return new Vector3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
+    }
+
+    Vector3 Abs(Vector3 v)
+    {
+        return new Vector3(Mathf.Abs(v.x), Mathf.Abs(v.y), Mathf.Abs(v.z));
     }
 
     Mesh CopyMesh(Mesh mesh)
