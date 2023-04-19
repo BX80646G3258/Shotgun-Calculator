@@ -40,20 +40,28 @@ Shader "Calculator/SpreadPatternFilterShader"
             }
 
             int _Count;
-            float2 _SpreadPattern[10];
+            half2 _SpreadPatternA[10];
+            half2 _SpreadPatternB[10];
+            half _SpreadBlend;
             // float4 _ScreenParams;
             sampler2D _ModelPartTexture;
             float frag (v2f i) : SV_Target
             {
-                int damage = 0;
-                float aspect = _ScreenParams.x / _ScreenParams.y;
+                int damageA = 0;
+                int damageB = 0;
+                half2 invTan = half2(unity_CameraProjection._m00, unity_CameraProjection._m11) * -_ProjectionParams.x / 2;
                 for (int j = 0; j < _Count; j++)
                 {
-                    float2 offset = _SpreadPattern[j];
-                    damage += tex2D(_ModelPartTexture, i.uv + float2(offset.x, offset.y * aspect)) * 1024;
+                    half2 offset = tan(_SpreadPatternA[j]) * invTan;
+                    damageA += tex2D(_ModelPartTexture, i.uv + offset) * 1024;
+                }
+                for (int j = 0; j < _Count; j++)
+                {
+                    half2 offset = tan(_SpreadPatternB[j]) * invTan;
+                    damageB += tex2D(_ModelPartTexture, i.uv + offset) * 1024;
                 }
              
-                return ((float) damage) / 1024;
+                return ((float) lerp(damageA, damageB, _SpreadBlend)) / 1024;
             }
             ENDCG
         }
