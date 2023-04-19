@@ -75,7 +75,7 @@ Shader "Calculator/ModelDamageShader"
 
                 damage *= depth > _Range ? 0 : pow(_RangeMod, depth / 500);
 
-                return damage / 1024;
+                return floor(damage) / 1024;
             }
             ENDCG
         }
