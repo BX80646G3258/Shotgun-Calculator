@@ -2,7 +2,7 @@ Shader "Calculator/SpreadPatternFilterShader"
 {
     Properties
     {
-        _Count ("bullet count", Integer) = 6
+        // _Count ("bullet count", Integer) = 6
     }
     SubShader
     {

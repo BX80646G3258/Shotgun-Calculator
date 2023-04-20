@@ -2,15 +2,15 @@ Shader "Calculator/ModelDamageShader"
 {
     Properties
     {
-        _HelmetRatio ("helmet armor ratio", Float) = 2
-        _KevlarRatio ("kevlar armor ratio", Float) = 2
-        _Damage ("base damage", Integer) = 36
-        _RangeMod ("range modifier", Float) = .98
-        _Range ("max range", Integer) = 8192
-        _HeadMul ("head multiplier", Float) = 4
-        _ChestMul ("chest multiplier", Float) = 1
-        _StomachMul ("stomach multiplier", Float) = 1.25
-        _LegMul ("leg multiplier", Float) = .75
+        // _HelmetRatio ("helmet armor ratio", Float) = 2
+        // _KevlarRatio ("kevlar armor ratio", Float) = 2
+        // _Damage ("base damage", Integer) = 36
+        // _RangeMod ("range modifier", Float) = .98
+        // _Range ("max range", Integer) = 8192
+        // _HeadMul ("head multiplier", Float) = 4
+        // _ChestMul ("chest multiplier", Float) = 1
+        // _StomachMul ("stomach multiplier", Float) = 1.25
+        // _LegMul ("leg multiplier", Float) = .75
     }
     SubShader
     {

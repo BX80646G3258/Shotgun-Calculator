@@ -2,7 +2,7 @@ Shader "Calculator/SpreadFilterShader"
 {
     Properties
     {
-        _Radius ("radius", Float) = .0062
+        // _Radius ("radius", Float) = .0062
         _Quality ("quality", Range(0, 1)) = 1
         [KeywordEnum(NoSpread, ShowSpread, Average, Minimum, Maximum)] _Mode ("Mode", Float) = 0
     }
