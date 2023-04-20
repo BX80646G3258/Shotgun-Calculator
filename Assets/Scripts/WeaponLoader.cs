@@ -5,16 +5,19 @@ using UnityEngine;
 using System.Globalization;
 
 [Serializable]
-public struct SpreadPattern
+public class SpreadPattern
 {
     public Vector2[] angles;
     public float spread;
+    public float crouchingSpread;
+    public float walkingSpread;
+    public float runningSpread;
     [TextArea]
     public string patternData;
 }
 
 [Serializable]
-public struct Weapon
+public class Weapon
 {
     public string name;
     public int baseDamage;
@@ -33,12 +36,15 @@ public class WeaponLoader : MonoBehaviour
     public Material patternMat;
     public Material spreadMat;
     public Material damageMat;
+    public int maxPatternSize = 10;
     public bool helmet;
     public bool kevlar;
+    public MovementState movementState;
     public Weapon[] weapons;
     [Range(0, 1)]
     public float time;
     public bool interpolate;
+    Vector4[] anglesList;
     int spreadPatternIDA = Shader.PropertyToID("_SpreadPatternA");
     int spreadPatternIDB = Shader.PropertyToID("_SpreadPatternB");
     int spreadBlendID = Shader.PropertyToID("_SpreadBlend");
@@ -65,17 +71,18 @@ public class WeaponLoader : MonoBehaviour
                 if (pattern.patternData != "")
                 {
                     pattern.angles = ParsePatternData(pattern.patternData);
-                    Debug.Log(pattern.angles.Length);
-                    Debug.Log(sequence.patterns[0].angles.Length);
-                    weapons[i].patterns[j].angles = pattern.angles;
+                    // Debug.Log(pattern.angles.Length);
+                    // Debug.Log(sequence.patterns[0].angles.Length);
                 }
             }
         }
+
+        anglesList = new Vector4[maxPatternSize];
     }
 
     Vector2[] ParsePatternData(string data)
     {
-        Debug.Log("Parsing: " + data);
+        // Debug.Log("Parsing: " + data);
         List<Vector2> output = new List<Vector2>();
         foreach (string line in data.Split('\n'))
         {
@@ -101,24 +108,28 @@ public class WeaponLoader : MonoBehaviour
         float patternBlend = patternTime - patternIndex;
         patternBlend = Mathf.SmoothStep(0, 1, patternBlend);
         if (!interpolate)
-            patternBlend = Mathf.Floor(patternBlend);
+            patternBlend = Mathf.Round(patternBlend);
         SpreadPattern spreadPatternA = weapon.patterns[patternIndex];
         SpreadPattern spreadPatternB = weapon.patterns[patternIndex + 1];
         UpdateSpreadPattern(spreadPatternA, spreadPatternIDA);
         UpdateSpreadPattern(spreadPatternB, spreadPatternIDB);
         patternMat.SetFloat(spreadBlendID, patternBlend);
 
-        spreadMat.SetFloat(spreadID, Mathf.Lerp(spreadPatternA.spread, spreadPatternB.spread, patternBlend));
+
+        spreadMat.SetFloat(spreadID, Mathf.Lerp(GetSpread(spreadPatternA, movementState), GetSpread(spreadPatternB, movementState), patternBlend));
 
         UpdateWeaponDamage(weapon);
     }
 
     void UpdateSpreadPattern(SpreadPattern spreadPattern, int patternID)
     {
-        List<Vector4> vec4Array = new List<Vector4>();
-        foreach (Vector2 v2 in spreadPattern.angles)
-            vec4Array.Add(new Vector4(v2.x, v2.y, 0, 0));
-        patternMat.SetVectorArray(patternID, vec4Array);
+        ref Vector2[] angles = ref spreadPattern.angles;
+        for (int i = 0; i < angles.Length; i++)
+        {
+            Vector2 a = i < angles.Length ? angles[i] : Vector2.zero;
+            anglesList[i] = new Vector4(a.x, a.y, 0, 0);
+        }
+        patternMat.SetVectorArray(patternID, anglesList);
         patternMat.SetInteger(countID, spreadPattern.angles.Length);
         // Debug.Log("updated spread pattern");
     }
@@ -134,5 +145,27 @@ public class WeaponLoader : MonoBehaviour
         damageMat.SetFloat(chestMulID, weapon.chestMultiplier);
         damageMat.SetFloat(stomachMulID, weapon.stomachMultiplier);
         damageMat.SetFloat(legMulID, weapon.legMultiplier);
+    }
+
+    public float GetSpread(SpreadPattern pattern, MovementState state)
+    {
+        switch (movementState)
+        {
+            case MovementState.STANDING:
+                return pattern.spread;
+            case MovementState.CROUCHING:
+                return pattern.crouchingSpread;
+            case MovementState.WALKING:
+                return pattern.walkingSpread;
+            case MovementState.RUNNING:
+                return pattern.runningSpread;
+            default:
+                return 0;
+        }
+    }
+
+    public enum MovementState
+    {
+        STANDING, CROUCHING, WALKING, RUNNING
     }
 }
