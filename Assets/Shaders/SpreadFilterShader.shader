@@ -58,7 +58,7 @@ Shader "Calculator/SpreadFilterShader"
                 int samples = 1;
 
                 #if defined(_MODE_SHOWSPREAD)
-                return length((i.uv - .5) / invTan) < _Radius ? 100.f / 1024 : 0;
+                return length((i.uv - .5) / invTan) < _Radius ? 20.f / 1024 : 0;
                 #endif
 
                 // return damage / 1024;
