@@ -402,6 +402,7 @@ GameObject:
   - component: {fileID: 1589100927}
   - component: {fileID: 1589100926}
   - component: {fileID: 1589100928}
+  - component: {fileID: 1589100929}
   m_Layer: 0
   m_Name: Model Loader
   m_TagString: Untagged
@@ -469,6 +470,7 @@ MonoBehaviour:
   maxPatternSize: 10
   helmet: 1
   kevlar: 1
+  movementState: 0
   weapons:
   - name: xm1014
     baseDamage: 20
@@ -674,3 +676,18 @@ MonoBehaviour:
       patternData: "0.036847028072075\t0.0251932263867812\r\n0.0241913632949649\t0.0148993104122747\r\n-0.0513543969397411\t0.00729059278607863\r\n0.00173154473508214\t0.00410100811200583\r\n-0.00701720470626885\t-0.0112090155495108\r\n-0.00382761033688583\t-0.0175870532540922\r\n0.0560342721241048\t-0.023417162986338\r\n-0.0128947497304279\t-0.0286538061514363\r\n"
   time: 0
   interpolate: 0
+--- !u!114 &1589100929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589100925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a677cdc7fb74564f897e128a4762691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponLoader: {fileID: 1589100928}
+  frames: 90
+  path: Frames/
