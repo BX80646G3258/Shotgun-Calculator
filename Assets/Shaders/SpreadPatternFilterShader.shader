@@ -43,7 +43,6 @@ Shader "Calculator/SpreadPatternFilterShader"
             half2 _SpreadPatternA[10];
             half2 _SpreadPatternB[10];
             half _SpreadBlend;
-            // float4 _ScreenParams;
             sampler2D _ModelPartTexture;
             float frag (v2f i) : SV_Target
             {
