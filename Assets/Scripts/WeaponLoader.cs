@@ -44,6 +44,7 @@ public class WeaponLoader : MonoBehaviour
     [Range(0, 1)]
     public float time;
     public bool interpolate;
+    public int weaponIndex;
     Vector4[] anglesList;
     int spreadPatternIDA = Shader.PropertyToID("_SpreadPatternA");
     int spreadPatternIDB = Shader.PropertyToID("_SpreadPatternB");
@@ -100,7 +101,7 @@ public class WeaponLoader : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Weapon weapon = weapons[0];
+        Weapon weapon = CurrentWeapon();
         float patternTime = (weapon.patterns.Length - 1) * time;
         int patternIndex = (int)patternTime;
         if (patternIndex >= weapon.patterns.Length - 1)
@@ -162,6 +163,21 @@ public class WeaponLoader : MonoBehaviour
             default:
                 return 0;
         }
+    }
+
+    public Weapon CurrentWeapon()
+    {
+        return weapons[weaponIndex];
+    }
+
+    public void SetHelmet(bool b)
+    {
+        helmet = b;
+    }
+
+    public void SetKevlar(bool b)
+    {
+        kevlar = b;
     }
 
     public enum MovementState
