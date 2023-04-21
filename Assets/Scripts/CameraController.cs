@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Rendering;
 using static TMPro.TMP_Dropdown;
+using UnityEngine.UI;
 using System;
 
 public class CameraController : MonoBehaviour
@@ -14,8 +15,12 @@ public class CameraController : MonoBehaviour
     public TMP_Dropdown movementDropdown;
     public TMP_Dropdown weaponDropdown;
     public TMP_Dropdown spreadDropdown;
+    public Slider shotSlider;
+    public float shotSmoothing = .5f;
     string[] spreadModes = { "_MODE_NOSPREAD", "_MODE_SHOWSPREAD", "_MODE_AVERAGE", "_MODE_MINIMUM", "_MODE_MAXIMUM" };
     int samplingID = Shader.PropertyToID("_Samples");
+    int shotIndex;
+    float shotTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +49,22 @@ public class CameraController : MonoBehaviour
             spreadMat.EnableKeyword("_SAMPLES_DYNAMIC");
         }
 
+        int patternCount = weaponLoader.CurrentWeapon().patterns.Length;
+        int scrollAxis = (int)Input.mouseScrollDelta.y;
+        if (scrollAxis == 0)
+        {
+            shotIndex = (int)(shotSlider.value * patternCount);
+        }
+        else
+        {
+            shotIndex += scrollAxis;
+            shotIndex = Math.Clamp(shotIndex, 0, patternCount);
+        }
+        shotSlider.value = (float)shotIndex / patternCount;
+
+        shotTime = Mathf.Lerp(shotTime, (float)shotIndex / patternCount, GetLerpFract(shotSmoothing));
+        weaponLoader.time = shotTime;
+
         // if (Input.GetKeyDown(KeyCode.Tab))
         //     IncLoop(movementDropdown, 1);
         // if (Input.GetKeyDown(KeyCode.Space))
@@ -64,6 +85,11 @@ public class CameraController : MonoBehaviour
         if (index < 0)
             index += max;
         return index;
+    }
+
+    float GetLerpFract(float smoothing, float percent = .99f)
+    {
+        return 1 - Mathf.Exp((Mathf.Log(1f - percent) / smoothing) * Time.deltaTime);
     }
 
     public void SetSpreadMode(int mode)
