@@ -13,13 +13,6 @@ MonoBehaviour:
   m_Name: CalculatorFeature
   m_EditorClassIdentifier: 
   m_Active: 1
-  spreadPattern:
-  - {x: -0.012890625, y: 0.0046875}
-  - {x: -0.000390625, y: 0.007421875}
-  - {x: 0.00234375, y: 0.003515625}
-  - {x: -0.018359374, y: -0.012890625}
-  - {x: 0.001953125, y: -0.014453125}
-  - {x: 0.018359374, y: -0.01796875}
   partColorPassMat: {fileID: 2100000, guid: ac9dba5fbf623b84cb3dde99543d7b30, type: 2}
   damagePassMat: {fileID: 2100000, guid: 4cb7412c20a70384498cdaf562bd2f2e, type: 2}
   damageSpreadMat: {fileID: 2100000, guid: a197898abc4a589408462a41ba9a3f59, type: 2}
@@ -57,7 +50,7 @@ MonoBehaviour:
     coreBlitColorAndDepthPS: {fileID: 4800000, guid: d104b2fc1ca6445babb8e90b0758136b, type: 3}
     cameraMotionVector: {fileID: 4800000, guid: c56b7e0d4c7cb484e959caeeedae9bbf, type: 3}
     objectMotionVector: {fileID: 4800000, guid: 7b3ede40266cd49a395def176e1bc486, type: 3}
-  m_AssetVersion: 1
+  m_AssetVersion: 2
   m_OpaqueLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -74,6 +67,7 @@ MonoBehaviour:
   m_ShadowTransparentReceive: 1
   m_RenderingMode: 0
   m_DepthPrimingMode: 0
+  m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_ClusteredRendering: 0
   m_TileSize: 32
