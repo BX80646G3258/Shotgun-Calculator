@@ -41,6 +41,9 @@ Shader "Calculator/SpreadFilterShader"
                 return o;
             }
 
+            #define FIXED_SAMPLES 0
+            #define FIXED_SAMPLE_COUNT 8
+
             float _Radius;
             float _Quality;
             // float4 _ScreenParams;
@@ -52,7 +55,7 @@ Shader "Calculator/SpreadFilterShader"
                 return tex2D(_ModelPartTexture, i.uv);
                 #endif
 
-                float2 invTan = float2(unity_CameraProjection._m00, unity_CameraProjection._m11) * -_ProjectionParams.x;
+                float2 invTan = float2(unity_CameraProjection._m00, unity_CameraProjection._m11);
                 float r2 = _Radius * _Radius;
                 int damage = tex2D(_ModelPartTexture, i.uv) * 1024;
                 int samples = 1;
@@ -61,16 +64,40 @@ Shader "Calculator/SpreadFilterShader"
                 return length((i.uv - .5) / invTan) < _Radius ? 20.f / 1024 : 0;
                 #endif
 
-                // return damage / 1024;
-                // float aspect = _ScreenParams.y / _ScreenParams.x;
                 float yLim = _Radius * invTan.y;
+                #if FIXED_SAMPLES
+                float yStep = yLim / FIXED_SAMPLE_COUNT;
+                float xStep = yStep * (_ScreenParams.y / _ScreenParams.x);
+                #else
                 float yStep = (1 / _ScreenParams.y) / _Quality;
                 float xStep = (1 / _ScreenParams.x) / _Quality;
+                #endif
+
+                #if FIXED_SAMPLES
+                [unroll]
+                for (int sy = 1; sy < FIXED_SAMPLE_COUNT; sy++)
+                #else
                 for (float y = yStep; y < yLim; y += yStep)
-                {
+                #endif
+                {                    
+                    #if FIXED_SAMPLES
+                    float y = yStep * sy;
+                    int xsLim2 = pow(FIXED_SAMPLE_COUNT, 2) - pow(sy, 2);
+
+                    [unroll]
+                    for (int sx = 0; sx * sx < xsLim2; sx++)
+
+                    #else
+
                     float xLim2 = (r2 - pow(y / invTan.y, 2)) * pow(invTan.x, 2);
+
                     for (float x = 0; x * x < xLim2; x += xStep)
+                    #endif
                     {
+                        #if FIXED_SAMPLES
+                        float x = xStep * sx;
+                        #endif
+
                         #if defined(_MODE_AVERAGE)
                         damage += tex2D(_ModelPartTexture, i.uv + float2(x, y)) * 1024;
                         damage += tex2D(_ModelPartTexture, i.uv + float2(x, -y)) * 1024;

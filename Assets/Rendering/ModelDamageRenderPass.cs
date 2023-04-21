@@ -22,7 +22,7 @@ public class FilterRenderPass : ScriptableRenderPass
     {
 
         RenderTextureDescriptor cameraDescriptor = renderingData.cameraData.cameraTargetDescriptor;
-        cmd.GetTemporaryRT(tempTextureID, cameraDescriptor.width, cameraDescriptor.height, cameraDescriptor.depthBufferBits, FilterMode.Point, RenderTextureFormat.R16);
+        cmd.GetTemporaryRT(tempTextureID, cameraDescriptor.width, cameraDescriptor.height, cameraDescriptor.depthBufferBits, FilterMode.Point, RenderTextureFormat.RFloat);
 
         ConfigureClear(ClearFlag.All, Color.black);
         ConfigureTarget(tempID);

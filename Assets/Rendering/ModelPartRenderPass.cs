@@ -19,7 +19,7 @@ class ModelPartRenderPass : ScriptableRenderPass
 
         RenderTextureDescriptor cameraDescriptor = renderingData.cameraData.cameraTargetDescriptor;
         // RenderTextureDescriptor descriptor = new RenderTextureDescriptor(cameraDescriptor.width, cameraDescriptor.height, RenderTextureFormat.R16, 16);
-        cmd.GetTemporaryRT(modelPartTextureID, cameraDescriptor.width, cameraDescriptor.height, cameraDescriptor.depthBufferBits, FilterMode.Point, RenderTextureFormat.R16);
+        cmd.GetTemporaryRT(modelPartTextureID, cameraDescriptor.width, cameraDescriptor.height, cameraDescriptor.depthBufferBits, FilterMode.Point, RenderTextureFormat.RFloat);
 
         ConfigureClear(ClearFlag.All, Color.black);
         ConfigureTarget(identifier);

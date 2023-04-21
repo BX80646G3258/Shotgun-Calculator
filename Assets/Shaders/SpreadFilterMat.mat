@@ -113,7 +113,7 @@ Material:
     - _Parallax: 0.005
     - _Quality: 1
     - _QueueOffset: 0
-    - _Radius: 0.023800002
+    - _Radius: 0.0070000035
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0

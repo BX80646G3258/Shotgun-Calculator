@@ -49,7 +49,7 @@ Shader "Calculator/SpreadPatternFilterShader"
             {
                 int damageA = 0;
                 int damageB = 0;
-                half2 invTan = half2(unity_CameraProjection._m00, unity_CameraProjection._m11) * -_ProjectionParams.x / 2;
+                half2 invTan = half2(unity_CameraProjection._m00, unity_CameraProjection._m11) / 2;
                 for (int j = 0; j < _Count; j++)
                 {
                     half2 offset = tan(_SpreadPatternA[j]) * invTan;
