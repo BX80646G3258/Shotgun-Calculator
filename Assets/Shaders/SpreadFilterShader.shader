@@ -5,6 +5,7 @@ Shader "Calculator/SpreadFilterShader"
         // _Radius ("radius", Float) = .0062
         _Quality ("quality", Range(0, 1)) = 1
         [KeywordEnum(NoSpread, ShowSpread, Average, Minimum, Maximum)] _Mode ("Mode", Float) = 0
+        [KeywordEnum(Dynamic, Fixed)] _Samples ("Sampling", float) = 0
     }
     SubShader
     {
@@ -18,6 +19,7 @@ Shader "Calculator/SpreadFilterShader"
             #pragma fragment frag
 
             #pragma multi_compile _MODE_NOSPREAD _MODE_SHOWSPREAD _MODE_AVERAGE _MODE_MINIMUM _MODE_MAXIMUM
+            #pragma multi_compile _SAMPLES_DYNAMIC _SAMPLES_FIXED
 
             #include "UnityCG.cginc"
 
@@ -41,12 +43,11 @@ Shader "Calculator/SpreadFilterShader"
                 return o;
             }
 
-            #define FIXED_SAMPLES 0
-            #define FIXED_SAMPLE_COUNT 8
+            // #define FIXED_SAMPLES 0
+            #define FIXED_SAMPLE_COUNT 4
 
             float _Radius;
             float _Quality;
-            // float4 _ScreenParams;
             sampler2D _ModelPartTexture;
             float frag (v2f i) : SV_Target
             {
@@ -65,7 +66,7 @@ Shader "Calculator/SpreadFilterShader"
                 #endif
 
                 float yLim = _Radius * invTan.y;
-                #if FIXED_SAMPLES
+                #if defined(_SAMPLES_FIXED)
                 float yStep = yLim / FIXED_SAMPLE_COUNT;
                 float xStep = yStep * (_ScreenParams.y / _ScreenParams.x);
                 #else
@@ -73,14 +74,14 @@ Shader "Calculator/SpreadFilterShader"
                 float xStep = (1 / _ScreenParams.x) / _Quality;
                 #endif
 
-                #if FIXED_SAMPLES
+                #if defined(_SAMPLES_FIXED)
                 [unroll]
                 for (int sy = 1; sy < FIXED_SAMPLE_COUNT; sy++)
                 #else
                 for (float y = yStep; y < yLim; y += yStep)
                 #endif
                 {                    
-                    #if FIXED_SAMPLES
+                    #if defined(_SAMPLES_FIXED)
                     float y = yStep * sy;
                     int xsLim2 = pow(FIXED_SAMPLE_COUNT, 2) - pow(sy, 2);
 
@@ -94,7 +95,7 @@ Shader "Calculator/SpreadFilterShader"
                     for (float x = 0; x * x < xLim2; x += xStep)
                     #endif
                     {
-                        #if FIXED_SAMPLES
+                        #if defined(_SAMPLES_FIXED)
                         float x = xStep * sx;
                         #endif
 
