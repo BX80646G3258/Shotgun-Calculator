@@ -33,14 +33,23 @@ public class CalculatorFeature : ScriptableRendererFeature
         damageColorPass = new ModelColorRenderPass(damageColorPassMat);
 
         // Configures where the render pass should be injected.
-        normalRenderPass.renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
-        modelPartPass.renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
-        modelDepthPass.renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
-        partColorPass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
-        modelDamagePass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
-        damageSpreadPass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
-        damagePatternPass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
-        damageColorPass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
+        // normalRenderPass.renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
+        // modelPartPass.renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
+        // modelDepthPass.renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
+        // partColorPass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
+        // modelDamagePass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
+        // damageSpreadPass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
+        // damagePatternPass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
+        // damageColorPass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
+
+        normalRenderPass.renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
+        modelPartPass.renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
+        modelDepthPass.renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
+        partColorPass.renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
+        modelDamagePass.renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
+        damageSpreadPass.renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
+        damagePatternPass.renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
+        damageColorPass.renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
     }
 
     // Here you can inject one or multiple render passes in the renderer.
