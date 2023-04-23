@@ -51,13 +51,13 @@ Shader "Calculator/SpreadPatternFilterShader"
                 half2 invTan = half2(unity_CameraProjection._m00, unity_CameraProjection._m11) / 2;
                 for (int j = 0; j < _Count; j++)
                 {
-                    half2 offset = tan(_SpreadPatternA[j]) * invTan;
-                    damageA += tex2D(_ModelPartTexture, i.uv + offset) * 1024;
+                    half2 screenPosition = tan(_SpreadPatternA[j] + atan((i.uv - .5) / invTan)) * invTan;
+                    damageA += tex2D(_ModelPartTexture, screenPosition + .5) * 1024;
                 }
                 for (int j = 0; j < _Count; j++)
                 {
-                    half2 offset = tan(_SpreadPatternB[j]) * invTan;
-                    damageB += tex2D(_ModelPartTexture, i.uv + offset) * 1024;
+                    half2 screenPosition = tan(_SpreadPatternB[j] + atan((i.uv - .5) / invTan)) * invTan;
+                    damageB += tex2D(_ModelPartTexture, screenPosition + .5) * 1024;
                 }
              
                 return ((float) lerp(damageA, damageB, _SpreadBlend)) / 1024;
