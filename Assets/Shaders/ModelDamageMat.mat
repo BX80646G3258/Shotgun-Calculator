@@ -90,7 +90,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints:
-    - _Damage: 26
+    - _Damage: 20
     - _Range: 3000
     m_Floats:
     - _AlphaClip: 0
@@ -111,9 +111,9 @@ Material:
     - _GlossyReflections: 0
     - _HeadMul: 4
     - _HelmetPen: 1
-    - _HelmetRatio: 1
+    - _HelmetRatio: 1.6
     - _KevlarPen: 1
-    - _KevlarRatio: 1
+    - _KevlarRatio: 1.6
     - _LegMul: 0.75
     - _Metallic: 0
     - _OcclusionStrength: 1
