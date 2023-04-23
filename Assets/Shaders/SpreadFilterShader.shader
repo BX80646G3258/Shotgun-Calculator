@@ -44,11 +44,18 @@ Shader "Calculator/SpreadFilterShader"
             }
 
             // #define FIXED_SAMPLES 0
-            #define FIXED_SAMPLE_COUNT 4
+            #define FIXED_SAMPLE_COUNT 2
 
             float _Radius;
             float _Quality;
             sampler2D _ModelPartTexture;
+
+            float2 random2(float2 uv)
+            {
+                float2x2 m = float2x2(16.04, 496.35, 262.85, 536.69);
+                return frac(sin(mul(m, uv)) * 85351.22);
+            }
+
             float frag (v2f i) : SV_Target
             {
                 _Radius /= 2;
@@ -69,6 +76,7 @@ Shader "Calculator/SpreadFilterShader"
                 #if defined(_SAMPLES_FIXED)
                 float yStep = yLim / FIXED_SAMPLE_COUNT;
                 float xStep = yStep * (_ScreenParams.y / _ScreenParams.x);
+                i.uv += (random2(i.uv) - .5) * float2(xStep, yStep);
                 #else
                 float yStep = (1 / _ScreenParams.y) / _Quality;
                 float xStep = (1 / _ScreenParams.x) / _Quality;
