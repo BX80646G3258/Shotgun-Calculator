@@ -56,10 +56,19 @@ Shader "Calculator/ModelDamageShader"
             float _LegMul;
             sampler2D _ModelPartTexture;
             sampler2D _CameraDepthTexture;
+
+            float depthToDist(float depth, float2 uv)
+            {
+                float2 invTan = float2(unity_CameraProjection._m00, unity_CameraProjection._m11) / 2;
+                float2 xy = depth * ((uv - .5) / invTan);
+                return length(float3(xy, depth));
+            }
+
             float frag (v2f i) : SV_Target
             {
                 int part = tex2D(_ModelPartTexture, i.uv) * 1024;
-                float depth = DECODE_EYEDEPTH(tex2D(_CameraDepthTexture, i.uv));
+                float dist = DECODE_EYEDEPTH(tex2D(_CameraDepthTexture, i.uv));
+                dist = depthToDist(dist, i.uv);
                 float damage = _Damage;
 
                 if (part == 1)
@@ -73,7 +82,7 @@ Shader "Calculator/ModelDamageShader"
                 else
                     damage *= 0;
 
-                damage *= depth > _Range ? 0 : pow(_RangeMod, depth / 500);
+                damage *= dist > _Range ? 0 : pow(_RangeMod, dist / 500);
 
                 return floor(damage) / 1024;
             }
