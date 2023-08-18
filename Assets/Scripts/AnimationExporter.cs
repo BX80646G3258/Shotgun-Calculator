@@ -2,31 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationExporter : MonoBehaviour
+namespace ShotgunCalculator
 {
-    public WeaponLoader weaponLoader;
-    public int frames = 15;
-    public string path = "Frames/";
-    int frameCount;
-    void OnEnable()
+    public class AnimationExporter : MonoBehaviour
     {
-        frameCount = 0;
-        weaponLoader.time = 0;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        int totalFrames = frames * weaponLoader.CurrentWeapon().patterns.Length;
-        if (frameCount <= totalFrames)
+        public SceneController sceneController;
+        public WeaponLoader weaponLoader;
+        public int frames = 15;
+        public string path = "Frames/";
+        int frameCount;
+        void OnEnable()
         {
-            weaponLoader.time = (float)frameCount / totalFrames;
-            ScreenCapture.CaptureScreenshot(path + frameCount.ToString("0000") + ".png");
-            frameCount++;
+            sceneController.enabled = false;
+            frameCount = 0;
+            weaponLoader.time = 0;
         }
-        else
+
+        // Update is called once per frame
+        void Update()
         {
-            enabled = false;
+            int totalFrames = frames * weaponLoader.CurrentWeapon().patterns.Length;
+            if (frameCount <= totalFrames)
+            {
+                weaponLoader.time = (float)frameCount / totalFrames;
+                ScreenCapture.CaptureScreenshot(path + frameCount.ToString("0000") + ".png");
+                frameCount++;
+            }
+            else
+            {
+                enabled = false;
+                sceneController.enabled = true;
+            }
         }
     }
 }
