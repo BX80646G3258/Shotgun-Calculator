@@ -12,6 +12,7 @@ public class SpreadPattern
     public float crouchingSpread;
     public float walkingSpread;
     public float runningSpread;
+    public float jumpingSpread;
     [TextArea]
     public string patternData;
 }
@@ -36,6 +37,8 @@ public class WeaponLoader : MonoBehaviour
     public Material patternMat;
     public Material spreadMat;
     public Material damageMat;
+    public FOVSetter fovSetter;
+    public GameObject spreadParent;
     public int maxPatternSize = 10;
     public bool helmet;
     public bool kevlar;
@@ -46,11 +49,12 @@ public class WeaponLoader : MonoBehaviour
     public bool interpolate;
     public int weaponIndex;
     Vector4[] anglesList;
+    Weapon lastWeapon;
     int spreadPatternIDA = Shader.PropertyToID("_SpreadPatternA");
     int spreadPatternIDB = Shader.PropertyToID("_SpreadPatternB");
     int spreadBlendID = Shader.PropertyToID("_SpreadBlend");
     int countID = Shader.PropertyToID("_Count");
-    int spreadID = Shader.PropertyToID("_Radius");
+    int radiusID = Shader.PropertyToID("_Radius");
     int helmetRatioID = Shader.PropertyToID("_HelmetRatio");
     int kevlarRatioID = Shader.PropertyToID("_KevlarRatio");
     int damageID = Shader.PropertyToID("_Damage");
@@ -102,27 +106,33 @@ public class WeaponLoader : MonoBehaviour
     void Update()
     {
         Weapon weapon = CurrentWeapon();
+        if (weapon != lastWeapon)
+        {
+            lastWeapon = weapon;
+            SetupPatternDisplay(weapon);
+        }
         float patternTime = (weapon.patterns.Length - 1) * time;
-        int patternIndex = (int)patternTime;
+        int patternIndex = Mathf.FloorToInt(patternTime);
         if (patternIndex >= weapon.patterns.Length - 1)
-            patternIndex = weapon.patterns.Length - 2;
+            patternIndex = weapon.patterns.Length > 1 ? weapon.patterns.Length - 2 : 0;
         float patternBlend = patternTime - patternIndex;
         patternBlend = Mathf.SmoothStep(0, 1, patternBlend);
         if (!interpolate)
             patternBlend = Mathf.Round(patternBlend);
         SpreadPattern spreadPatternA = weapon.patterns[patternIndex];
-        SpreadPattern spreadPatternB = weapon.patterns[patternIndex + 1];
-        UpdateSpreadPattern(spreadPatternA, spreadPatternIDA);
-        UpdateSpreadPattern(spreadPatternB, spreadPatternIDB);
+        SpreadPattern spreadPatternB = weapon.patterns.Length > 1 ? weapon.patterns[patternIndex + 1] : spreadPatternA;
+        UpdateShaderSpreadPattern(spreadPatternA, spreadPatternIDA);
+        UpdateShaderSpreadPattern(spreadPatternB, spreadPatternIDB);
         patternMat.SetFloat(spreadBlendID, patternBlend);
 
-
-        spreadMat.SetFloat(spreadID, Mathf.Lerp(GetSpread(spreadPatternA, movementState), GetSpread(spreadPatternB, movementState), patternBlend));
+        float spread = Mathf.Lerp(GetSpread(spreadPatternA, movementState), GetSpread(spreadPatternB, movementState), patternBlend);
+        spreadMat.SetFloat(radiusID, spread / 2);
 
         UpdateWeaponDamage(weapon);
+        UpdatePatternDisplay(weapon.patterns[Mathf.RoundToInt(patternTime)]);
     }
 
-    void UpdateSpreadPattern(SpreadPattern spreadPattern, int patternID)
+    void UpdateShaderSpreadPattern(SpreadPattern spreadPattern, int patternID)
     {
         ref Vector2[] angles = ref spreadPattern.angles;
         for (int i = 0; i < angles.Length; i++)
@@ -148,6 +158,51 @@ public class WeaponLoader : MonoBehaviour
         damageMat.SetFloat(legMulID, weapon.legMultiplier);
     }
 
+    void SetupPatternDisplay(Weapon weapon)
+    {
+        foreach (Transform child in spreadParent.transform)
+            Destroy(child.gameObject);
+
+        for (int i = 0; i < weapon.patterns[0].angles.Length; i++)
+        {
+            GameObject angleDisplay = new GameObject(weapon.name + " angle display " + i);
+            CircleGraphic circle = angleDisplay.AddComponent<CircleGraphic>();
+            circle.mode = CircleGraphic.Mode.Edge;
+            circle.raycastTarget = false;
+            angleDisplay.transform.SetParent(spreadParent.transform);
+        }
+    }
+    void UpdatePatternDisplay(SpreadPattern pattern)
+    {
+        Vector2 mouseCenterPos = Input.mousePosition;
+        mouseCenterPos = new Vector2(mouseCenterPos.x / Screen.width - .5f, mouseCenterPos.y / Screen.height - .5f);
+        Vector2 fov = new Vector2(fovSetter.actualFOV, fovSetter.vertFOV) * Mathf.Deg2Rad;
+        Vector2 screenRatio = new Vector2(Mathf.Tan(fov.x / 2), Mathf.Tan(fov.y / 2));
+        Vector2 mouseAng = new Vector2(
+            Mathf.Atan(2 * mouseCenterPos.x * screenRatio.x),
+            Mathf.Atan(2 * mouseCenterPos.y * screenRatio.y));
+
+        float spreadRadius = Mathf.Tan(GetSpread(pattern, movementState)) / screenRatio.x * Screen.width;
+
+        for (int i = 0; i < pattern.angles.Length; i++)
+        {
+            RectTransform child = (RectTransform)spreadParent.transform.GetChild(i);
+            GameObject angleDisplay = child.gameObject;
+            Vector2 offsetAngle = mouseAng + pattern.angles[i];
+            Vector2 screenPos = new Vector2(
+                ((Mathf.Tan(offsetAngle.x) / screenRatio.x) + 1) / 2 * Screen.width,
+                ((Mathf.Tan(offsetAngle.y) / screenRatio.y) + 1) / 2 * Screen.height
+            );
+            child.transform.position = screenPos;
+
+            Vector2 spreadRatio = new Vector2(
+                1 / Mathf.Pow(Mathf.Cos(offsetAngle.x), 2),
+                1 / Mathf.Pow(Mathf.Cos(offsetAngle.y), 2)
+            );
+            child.sizeDelta = spreadRadius * spreadRatio;
+        }
+    }
+
     public float GetSpread(SpreadPattern pattern, MovementState state)
     {
         switch (movementState)
@@ -160,6 +215,8 @@ public class WeaponLoader : MonoBehaviour
                 return pattern.walkingSpread;
             case MovementState.RUNNING:
                 return pattern.runningSpread;
+            case MovementState.JUMPING:
+                return pattern.jumpingSpread;
             default:
                 return 0;
         }
@@ -182,6 +239,6 @@ public class WeaponLoader : MonoBehaviour
 
     public enum MovementState
     {
-        STANDING, CROUCHING, WALKING, RUNNING
+        STANDING, CROUCHING, WALKING, RUNNING, JUMPING
     }
 }
