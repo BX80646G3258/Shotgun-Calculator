@@ -4,7 +4,8 @@ Shader "Calculator/SpreadFilterShader"
     {
         // _Radius ("radius", Float) = .0062
         _Quality ("quality", Range(0, 1)) = 1
-        [KeywordEnum(NoSpread, ShowSpread, Average, Minimum, Maximum)] _Mode ("Mode", Float) = 0
+        _MaxSamples ("max samples", Range(1, 16000)) = 1000
+        [KeywordEnum(NoSpread, ShowSpread, Average, FlatAverage, Minimum, Maximum)] _Mode ("Mode", Float) = 0
         [KeywordEnum(Dynamic, Fixed)] _Samples ("Sampling", float) = 0
     }
     SubShader
@@ -18,7 +19,7 @@ Shader "Calculator/SpreadFilterShader"
             #pragma vertex vert
             #pragma fragment frag
 
-            #pragma multi_compile _MODE_NOSPREAD _MODE_SHOWSPREAD _MODE_AVERAGE _MODE_MINIMUM _MODE_MAXIMUM
+            #pragma multi_compile _MODE_NOSPREAD _MODE_SHOWSPREAD _MODE_AVERAGE _MODE_FLATAVERAGE _MODE_MINIMUM _MODE_MAXIMUM
             #pragma multi_compile _SAMPLES_DYNAMIC _SAMPLES_FIXED
 
             #include "UnityCG.cginc"
@@ -44,10 +45,11 @@ Shader "Calculator/SpreadFilterShader"
             }
 
             // #define FIXED_SAMPLES 0
-            #define FIXED_SAMPLE_COUNT 2
+            #define FIXED_SAMPLE_COUNT 4
 
             float _Radius;
             float _Quality;
+            float _MaxSamples;
             sampler2D _ModelPartTexture;
 
             float2 random2(float2 uv)
@@ -58,75 +60,72 @@ Shader "Calculator/SpreadFilterShader"
 
             float frag (v2f i) : SV_Target
             {
-                _Radius /= 2;
                 #if defined(_MODE_NOSPREAD)
-                return tex2D(_ModelPartTexture, i.uv);
+                    return tex2D(_ModelPartTexture, i.uv);
                 #endif
 
                 float2 invTan = float2(unity_CameraProjection._m00, unity_CameraProjection._m11);
-                float r2 = _Radius * _Radius;
-                int damage = tex2D(_ModelPartTexture, i.uv) * 1024;
-                int samples = 1;
+                float2 pixelToSC = 1 / _ScreenParams.xy;
+                float pixelRadius = _Radius * invTan.x * _ScreenParams.x;
+                int r2 = pixelRadius * pixelRadius;
+                float damage = tex2D(_ModelPartTexture, i.uv) * 1024;
+                float sampleCount = 1;
+                
+                #if defined(_SAMPLES_FIXED)
+                    float step = pixelRadius / FIXED_SAMPLE_COUNT;
+                    i.uv += ((random2(i.uv) - .5) * pixelRadius) * pixelToSC;
+                    //i.uv += (random2(i.uv) - .5) * float2(xStep, yStep);
+                #else
+                    half step = 1 / _Quality;
+
+                    half estSampleCount = UNITY_PI * pow(pixelRadius, 2);
+                    half correction = estSampleCount / _MaxSamples;
+                    if(correction > 1)
+                    step *= correction;
+                #endif
 
                 #if defined(_MODE_SHOWSPREAD)
-                return length((i.uv - .5) / invTan) < _Radius ? 20.f / 1024 : 0;
+                    return length((i.uv - .5) * _ScreenParams.xy) < pixelRadius ? 20.f / 1024 : 0;
                 #endif
 
-                float yLim = _Radius * invTan.y;
-                #if defined(_SAMPLES_FIXED)
-                float yStep = yLim / FIXED_SAMPLE_COUNT;
-                float xStep = yStep * (_ScreenParams.y / _ScreenParams.x);
-                i.uv += (random2(i.uv) - .5) * float2(xStep, yStep);
-                #else
-                float yStep = (1 / _ScreenParams.y) / _Quality;
-                float xStep = (1 / _ScreenParams.x) / _Quality;
+                #if defined(_MODE_AVERAGE)
+                    sampleCount = 7.0509887 / step;
+                    damage *= sampleCount;
+                    // sampleCount = 0;
+                    // damage = 0;
                 #endif
 
-                #if defined(_SAMPLES_FIXED)
-                [unroll]
-                for (int sy = 1; sy < FIXED_SAMPLE_COUNT; sy++)
-                #else
-                for (float y = yStep; y < yLim; y += yStep)
-                #endif
-                {                    
-                    #if defined(_SAMPLES_FIXED)
-                    float y = yStep * sy;
-                    int xsLim2 = pow(FIXED_SAMPLE_COUNT, 2) - pow(sy, 2);
-
-                    [unroll]
-                    for (int sx = 0; sx * sx < xsLim2; sx++)
-
-                    #else
-
-                    float xLim2 = (r2 - pow(y / invTan.y, 2)) * pow(invTan.x, 2);
-
-                    for (float x = 0; x * x < xLim2; x += xStep)
-                    #endif
+                for (half y = step; y < pixelRadius; y += step)
+                {
+                    for (half x = 0; x < pixelRadius; x += step)
                     {
-                        #if defined(_SAMPLES_FIXED)
-                        float x = xStep * sx;
-                        #endif
+                        half2 pCoord = half2(x, y);
+                        half dist = length(pCoord);
+                        half invDist = 1 / dist;
+                        if(dist >= pixelRadius)
+                        break;
 
-                        #if defined(_MODE_AVERAGE)
-                        damage += tex2D(_ModelPartTexture, i.uv + float2(x, y)) * 1024;
-                        damage += tex2D(_ModelPartTexture, i.uv + float2(x, -y)) * 1024;
-                        damage += tex2D(_ModelPartTexture, i.uv + float2(-x, y)) * 1024;
-                        damage += tex2D(_ModelPartTexture, i.uv + float2(-x, -y)) * 1024;
-                        samples += 4;
-                        #elif defined(_MODE_MINIMUM)
-                        damage = min(tex2D(_ModelPartTexture, i.uv + float2(x, y)) * 1024, damage);
-                        damage = min(tex2D(_ModelPartTexture, i.uv + float2(x, -y)) * 1024, damage);
-                        damage = min(tex2D(_ModelPartTexture, i.uv + float2(-x, y)) * 1024, damage);
-                        damage = min(tex2D(_ModelPartTexture, i.uv + float2(-x, -y)) * 1024, damage);
-                        #elif defined(_MODE_MAXIMUM)
-                        damage = max(tex2D(_ModelPartTexture, i.uv + float2(x, y)) * 1024, damage);
-                        damage = max(tex2D(_ModelPartTexture, i.uv + float2(x, -y)) * 1024, damage);
-                        damage = max(tex2D(_ModelPartTexture, i.uv + float2(-x, y)) * 1024, damage);
-                        damage = max(tex2D(_ModelPartTexture, i.uv + float2(-x, -y)) * 1024, damage);
-                        #endif
+
+                        [unroll]
+                        for (int q = 0; q < 4; q++)
+                        {
+                            #if defined(_MODE_FLATAVERAGE)
+                                damage += tex2D(_ModelPartTexture, i.uv + pCoord * pixelToSC) * 1024;
+                                sampleCount++;
+                            #elif defined(_MODE_AVERAGE)
+                                damage += round(tex2D(_ModelPartTexture, i.uv + pCoord * pixelToSC) * 1024) * invDist;
+                                sampleCount += invDist;
+                            #elif defined(_MODE_MINIMUM)
+                                damage = min(tex2D(_ModelPartTexture, i.uv + pCoord * pixelToSC) * 1024, damage);
+                            #elif defined(_MODE_MAXIMUM)
+                                damage = max(tex2D(_ModelPartTexture, i.uv + pCoord * pixelToSC) * 1024, damage);
+                            #endif
+                            pCoord = half2(-pCoord.y, pCoord.x);
+                        }
                     }
                 }
-                return (((float) damage) / samples) / 1024;
+
+                return (floor((damage + .01) / sampleCount)) / 1024;
             }
             ENDCG
         }
