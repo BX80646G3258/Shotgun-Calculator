@@ -11,6 +11,7 @@ Shader "Calculator/ModelDamageShader"
         // _ChestMul ("chest multiplier", Float) = 1
         // _StomachMul ("stomach multiplier", Float) = 1.25
         // _LegMul ("leg multiplier", Float) = .75
+        _HUPerMeter ("hammer units per meter", Float) = 39.37008
     }
     SubShader
     {
@@ -54,6 +55,7 @@ Shader "Calculator/ModelDamageShader"
             float _ChestMul;
             float _StomachMul;
             float _LegMul;
+            float _HUPerMeter;
             sampler2D _ModelPartTexture;
             sampler2D _CameraDepthTexture;
 
@@ -61,7 +63,7 @@ Shader "Calculator/ModelDamageShader"
             {
                 float2 invTan = float2(unity_CameraProjection._m00, unity_CameraProjection._m11) / 2;
                 float2 xy = depth * ((uv - .5) / invTan);
-                return length(float3(xy, depth));
+                return length(float3(xy, depth)) * _HUPerMeter;
             }
 
             float frag (v2f i) : SV_Target
@@ -84,7 +86,7 @@ Shader "Calculator/ModelDamageShader"
 
                 damage *= dist > _Range ? 0 : pow(_RangeMod, dist / 500);
 
-                return floor(damage) / 1024;
+                return min(floor(damage), 100) / 1024;
             }
             ENDCG
         }

@@ -109,6 +109,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _HUPerMeter: 52.49344
     - _HeadMul: 4
     - _HelmetPen: 1
     - _HelmetRatio: 1.6
