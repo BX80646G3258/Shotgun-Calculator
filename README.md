@@ -1,5 +1,5 @@
 # Shotgun-Calculator
-Damage calculator for CS:GO shotguns
+Damage calculator for Counter-Strike shotguns
 
 **XM1014**  
 ![xm1014 damage gif](https://github.com/BX80646G3258/Shotgun-Calculator/blob/master/img/xm1014.gif)
