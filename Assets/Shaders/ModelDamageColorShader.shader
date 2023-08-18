@@ -2,11 +2,15 @@ Shader "Calculator/ModelDamageColorShader"
 {
     Properties
     {
-        _Radius ("radius", Integer) = 1
+        _Radius ("radius", Range(0, 10)) = 1
         _Quality ("quality", Range(0, 1)) = 1
-        _Threshold ("outline threshold", Range(.6, 1)) = .9
+        _NormalWeight ("normal outline weight", Range(0, 1)) = .9
+        _DepthWeight ("depth outline weight", Range(0, 1)) = .9
+        _Margin ("outline margin", Range(0, 1)) = .1
+        _Threshold ("outline threshold", Range(0, 1)) = .5
         _Brightness ("outline brightness", Range(-1, 1)) = .5
         _MaxHits("max hits", Integer) = 8
+        _Remainder("show remaining", Range(0, 1)) = 0
         _ColorRange("color range", Range(0, 1)) = 1
     }
     SubShader
@@ -42,81 +46,95 @@ Shader "Calculator/ModelDamageColorShader"
                 return o;
             }
 
-            sampler2D _ModelPartTexture;
-            sampler2D _ModelNormalsTexture;
-            float _Radius;
-            float _Quality;
-            float _Threshold;
-            float _Brightness;
+            SamplerState point_clamp_sampler;
+            Texture2D _ModelPartTexture;
+            Texture2D _ModelNormalsTexture;
+            half _Radius;
+            half _Quality;
+            half _NormalWeight;
+            half _DepthWeight;
+            half _Margin;
+            half _Threshold;
+            half _Brightness;
+            float _Remainder;
+            sampler2D _CameraDepthTexture;
 
             int _MaxHits;
             float _ColorRange;
 
             half3 getNormal(float2 uv)
             {
-                half3 output = tex2D(_ModelNormalsTexture, uv);
+                half3 output = _ModelNormalsTexture.Sample(point_clamp_sampler, uv);
                 if(output.x + output.y + output.z == 0)
-                    return half3(0, 0, 0);
+                return half3(0, 0, 0);
                 else return output * 2 - 1;
             }
 
-            bool checkNormal(float2 uv, half3 normal)
+            float checkNormal(float2 uv, half3 normal)
             {
-                return dot(getNormal(uv), normal) < _Threshold;
+                // return dot(getNormal(uv), normal) < _Threshold;
+                return saturate(1 - dot(getNormal(uv), normal));
+                // return 1 - dot(getNormal(uv), normal);
+            }
+
+            float checkDepth(float2 uv, float depth)
+            {
+                return abs(depth - DECODE_EYEDEPTH(tex2D(_CameraDepthTexture, uv)));
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                bool outline = false;
+                half normalOutline = 0;
+                half depthOutline = 0;
 
-                float floatRadius = (_Radius + 1) / _ScreenParams.y;
-                float r2 = floatRadius * floatRadius;
+                float r2 = _Radius * _Radius;
                 half3 normal = getNormal(i.uv);
+                float depth = DECODE_EYEDEPTH(tex2D(_CameraDepthTexture, i.uv));
 
-                float aspect = _ScreenParams.y / _ScreenParams.x;
-                float yStep = (1 / _ScreenParams.y) / _Quality;
-                float xStep = (1 / _ScreenParams.x) / _Quality;
+                float step = 1 / _Quality;
+                float2 pixelToSC = 1 / _ScreenParams.xy;
 
-                for (float y = yStep; y < floatRadius; y += yStep)
+                for (float y = 0; y <= _Radius; y += step)
                 {
-                    float yScl = y / aspect;
-                    float x2Lim = (r2 - y * y) * aspect;
-                    for (float x = 0; x * x < x2Lim; x += xStep)
+                    float x2Lim = (r2 - y * y);
+                    for (float x = step; x * x <= x2Lim; x += step)
                     {
-                        if( checkNormal(i.uv + float2(x, y), normal) || 
-                            checkNormal(i.uv + float2(x, -y), normal) || 
-                            checkNormal(i.uv + float2(-x, y), normal) || 
-                            checkNormal(i.uv + float2(-x, -y), normal))
+                        half2 pCoord = half2(x, y);
+                        for (int q = 0; q < 4; q++)
                         {
-                            outline = true;
+                            float2 sampleCoord = i.uv + pCoord * pixelToSC;
+                            normalOutline += checkNormal(sampleCoord, normal);
+                            depthOutline += checkDepth(sampleCoord, depth);
+                            pCoord = half2(-pCoord.y, pCoord.x);
                         }
                     }
                 }
 
                 if(dot(normal, normal) == 0)
-                {
-                    outline = false;
-                }
+                    normalOutline = 0;
+                float outline = normalOutline * _NormalWeight + depthOutline * _DepthWeight;
+                outline = (outline - _Threshold) / _Margin;
 
-                float damage = tex2D(_ModelPartTexture, i.uv) * 1024;
+                int damage = round(_ModelPartTexture.Sample(point_clamp_sampler, i.uv) * 1024);
                 // if(damage == 0)
                 //     return fixed4(0, 0, 0, 0);
-                int hits = (100 / damage);
-                float theta = -UNITY_TWO_PI * _ColorRange * saturate(((float) hits) / _MaxHits);
+                float hits = (100.0 / damage);
+                int iHits = ceil(hits);
+                float theta = -UNITY_TWO_PI * _ColorRange * saturate(((float) iHits - 1) / _MaxHits);
                 half3 color = half3(
-                    (cos(theta) + 1) / 2,
-                    (cos(theta + UNITY_TWO_PI / 3) + 1) / 2,
-                    (cos(theta + UNITY_FOUR_PI / 3) + 1) / 2
+                (cos(theta) + 1) / 2,
+                (cos(theta + UNITY_TWO_PI / 3) + 1) / 2,
+                (cos(theta + UNITY_FOUR_PI / 3) + 1) / 2
                 );
+                color = lerp(color, 0, _Remainder * (1 - saturate(hits - iHits)));
 
                 if(hits > _MaxHits)
-                    color = 0;
+                color = 0;
 
-                if(outline)
-                    color += _Brightness;
+                color += _Brightness * saturate(outline);
 
                 return fixed4(color, 1);
-                // return outline;
+                // return normalOutline;
                 // return half4(getNormal(i.uv), 1);
                 
             }
