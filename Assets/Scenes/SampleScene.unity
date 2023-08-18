@@ -451,7 +451,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 283, y: -32}
+  m_AnchoredPosition: {x: 308.30005, y: -32}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.00000004284084, y: 0.9999999}
 --- !u!114 &116949954
@@ -672,6 +672,103 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!1 &171754456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 171754460}
+  - component: {fileID: 171754459}
+  - component: {fileID: 171754458}
+  - component: {fileID: 171754457}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!135 &171754457
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171754456}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &171754458
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171754456}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: ba5c1c6710764f248ae05c2e910cfac5, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &171754459
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171754456}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &171754460
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171754456}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -362.81198, y: 252.6, z: -114}
+  m_LocalScale: {x: 0.10000001, y: 0.10000001, z: 0.10000001}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &185201820
 GameObject:
   m_ObjectHideFlags: 0
@@ -1450,6 +1547,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 470689114}
   m_CullTransparentMesh: 1
+--- !u!1 &478605355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 478605356}
+  - component: {fileID: 478605358}
+  - component: {fileID: 478605357}
+  m_Layer: 5
+  m_Name: Crosshair
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &478605356
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478605355}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1453375510}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &478605357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478605355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 7ba61b89c4a11b64ca1f57cd9bb03aaf, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &478605358
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478605355}
+  m_CullTransparentMesh: 1
 --- !u!1 &540875981
 GameObject:
   m_ObjectHideFlags: 0
@@ -1580,7 +1753,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 160, y: -30}
+  m_AnchoredPosition: {x: 185.3, y: -30}
   m_SizeDelta: {x: 100, y: 24}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &552575695
@@ -2154,6 +2327,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 708207217}
   m_CullTransparentMesh: 1
+--- !u!1 &727135027
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 727135028}
+  m_Layer: 5
+  m_Name: Spread
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &727135028
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727135027}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1453375510}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &743634051
 GameObject:
   m_ObjectHideFlags: 0
@@ -2720,6 +2929,7 @@ GameObject:
   - component: {fileID: 963194229}
   - component: {fileID: 963194231}
   - component: {fileID: 963194232}
+  - component: {fileID: 963194233}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2758,7 +2968,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 74
   orthographic: 0
@@ -2785,14 +2995,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 40, z: -131.7}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 2.467, y: -0.967, z: -3.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2807,7 +3017,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LookSpeedController: 120
   m_LookSpeedMouse: 1
-  m_MoveSpeed: 200
+  m_MoveSpeed: 6.35
   m_MoveSpeedIncrement: 0
   m_Turbo: 0.5
 --- !u!114 &963194230
@@ -2834,7 +3044,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
-  m_Antialiasing: 1
+  m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -2878,7 +3088,23 @@ MonoBehaviour:
   weaponDropdown: {fileID: 1657419441}
   spreadDropdown: {fileID: 1690394290}
   shotSlider: {fileID: 116949954}
+  crosshair: {fileID: 478605356}
   shotSmoothing: 0.25
+--- !u!114 &963194233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19c4a6be022b9514f865ef60796e849c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 963194227}
+  mapCollider: {fileID: 2075780862}
+  hitPoint: {fileID: 171754460}
 --- !u!1 &1056997496
 GameObject:
   m_ObjectHideFlags: 0
@@ -3892,6 +4118,8 @@ RectTransform:
   - {fileID: 1236044412}
   - {fileID: 1690394289}
   - {fileID: 116949953}
+  - {fileID: 727135028}
+  - {fileID: 478605356}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4025,6 +4253,7 @@ GameObject:
   - component: {fileID: 1589100926}
   - component: {fileID: 1589100928}
   - component: {fileID: 1589100929}
+  - component: {fileID: 1589100930}
   m_Layer: 0
   m_Name: Model Loader
   m_TagString: Untagged
@@ -4044,9 +4273,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e1ff420f9ae23e42a68aadfaf1d04d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asset: {fileID: 4900000, guid: 30082e68633d6a64aa4c9459a60ba747, type: 3}
+  asset: {fileID: 4900000, guid: 99bffe39d0129684d804ffaae14e547e, type: 3}
   rebuild: 0
   build: 0
+  ready: 0
   capsuleMesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
   boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   negVariant: 0
@@ -4066,14 +4296,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1589100925}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 2.997, y: -3.246, z: -21.944}
+  m_LocalScale: {x: 0.01905, y: 0.01905, z: 0.01905}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1589100928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4089,6 +4319,8 @@ MonoBehaviour:
   patternMat: {fileID: 2100000, guid: edc35ae5d41daa34882a2d46233d7d28, type: 2}
   spreadMat: {fileID: 2100000, guid: a197898abc4a589408462a41ba9a3f59, type: 2}
   damageMat: {fileID: 2100000, guid: 4cb7412c20a70384498cdaf562bd2f2e, type: 2}
+  fovSetter: {fileID: 963194231}
+  spreadParent: {fileID: 727135027}
   maxPatternSize: 10
   helmet: 1
   kevlar: 1
@@ -4109,42 +4341,49 @@ MonoBehaviour:
       crouchingSpread: 0.0052500027
       walkingSpread: 0.017631803
       runningSpread: 0.043030005
+      jumpingSpread: 0.13783
       patternData: "0.00255174714766474\t0.0047389337991438\r\n-0.000637938085003691\t0.0106622768049011\r\n-0.0179059218922758\t0.0068349454011136\r\n-0.0248289182821667\t-0.0163570984366958\r\n0.00236948020271849\t-0.0184980967955662\r\n0.0235993303252115\t-0.0233260787332124\r\n"
     - angles: []
       spread: 0.008723976
       crouchingSpread: 0.0061469316
       walkingSpread: 0.01935578
       runningSpread: 0.044753976
+      jumpingSpread: 0.14281498
       patternData: "0.00592364230597101\t0.014944867278924\r\n-0.0159471023148043\t0.0134414590540431\r\n0\t0.00364534483305874\r\n0.0138514857913661\t-0.00637929517801881\r\n0.027652126306514\t-0.0175870532540922\r\n-0.0035542119895621\t-0.0256941390896949\r\n"
     - angles: []
       spread: 0.009212237
       crouchingSpread: 0.0063413316
       walkingSpread: 0.01984404
       runningSpread: 0.04524224
+      jumpingSpread: 0.1458255
       patternData: "-0.0298830616943026\t0.0268780628497317\r\n-0.00874864314233534\t0.0263316456629755\r\n-0.00378204398429785\t0.0163115435811059\r\n0.000637938085003691\t0.00364534483305874\r\n0.00291628051681343\t-0.00373647761600454\r\n-0.00400987558640014\t-0.0143981808386374\r\n"
     - angles: []
       spread: 0.009155895
       crouchingSpread: 0.0062577864
       walkingSpread: 0.019787699
       runningSpread: 0.045185897
+      jumpingSpread: 0.14732876
       patternData: "-0.00628816480947171\t0.0477179777922322\r\n-0.00145814335867177\t0.0375295883975919\r\n-0.0182247868888637\t0.0295188470800801\r\n-0.000729072066870873\t0.0225973908988533\r\n-0.00647042544060776\t0.0197735058236116\r\n-0.000637938085003691\t-0.0143070655863131\r\n"
     - angles: []
       spread: 0.009302772
       crouchingSpread: 0.0063537704
       walkingSpread: 0.019934576
       runningSpread: 0.045332775
+      jumpingSpread: 0.14843786
       patternData: "0.00893089694850903\t0.0307025154343456\r\n-0.0252387644315449\t0.0296099014718313\r\n-0.00856638875494725\t0.0289725105002497\r\n0.00273401392306638\t0.0235082468508406\r\n0.0261039671745708\t0.0193180097694838\r\n-0.0288814527127806\t0.0151270941232461\r\n"
     - angles: []
       spread: 0.009333559
       crouchingSpread: 0.0063645393
       walkingSpread: 0.019965362
       runningSpread: 0.04536356
+      jumpingSpread: 0.1488036
       patternData: "-0.0242824437952581\t0.0610748776713138\r\n-0.00988771941544528\t0.0543534239585646\r\n-0.00715389887984848\t0.0372565684299829\r\n-0.0183614421851456\t0.0338888778583035\r\n0.0020049458526324\t0.0327054487180274\r\n-0.0137603691362955\t0.00924983967435694\r\n"
     - angles: []
       spread: 0.009179582
       crouchingSpread: 0.0062601445
       walkingSpread: 0.019811384
       runningSpread: 0.045209583
+      jumpingSpread: 0.14929146
       patternData: "0.0209122096447347\t0.0622551204906109\r\n-0.000364536081877368\t0.0608932866483785\r\n-0.00287071388606905\t0.0535356022783856\r\n0.0242369035953866\t0.0533992916661161\r\n-0.00924983967435694\t0.0470814718465718\r\n0.0121202317370278\t0.0343895310250085\r\n"
   - name: nova
     baseDamage: 26
@@ -4161,48 +4400,56 @@ MonoBehaviour:
       crouchingSpread: 0.0052500023
       walkingSpread: 0.017844258
       runningSpread: 0.043750003
+      jumpingSpread: 0.13331
       patternData: "-0.00410100811200582\t0.027060198360627\r\n0.0102977807468128\t0.0184525453352809\r\n-0.00145814335867177\t0.00246061369562782\r\n-0.0167215348212929\t0.000410103087286767\r\n-0.0251021499839138\t-0.0016404109696892\r\n-0.0022327798900301\t-0.00451110361240295\r\n-0.0371200563598127\t-0.00993328195233511\r\n-0.00428327295734593\t-0.0118013082835081\r\n-0.0102977807468128\t-0.0295188470800801\r\n"
     - angles: []
       spread: 0.0071131615
       crouchingSpread: 0.00526906
       walkingSpread: 0.017957423
       runningSpread: 0.043863162
+      jumpingSpread: 0.1353554
       patternData: "-0.0190447082766627\t0.0241913632949649\r\n0.00792849399679403\t0.023052823657187\r\n-0.0321136995733479\t0.0111634542389123\r\n0.00770067284959732\t0.00578694595609358\r\n0.0171770740440532\t0.00382761033688583\r\n-0.00054680409253984\t-0.000820206036627581\r\n-0.0216864974427106\t-0.00300741374178213\r\n-0.000273402066706364\t-0.00537685562926627\r\n0.0255119904948737\t-0.0259673587806722\r\n"
     - angles: []
       spread: 0.007123781
       crouchingSpread: 0.0052713044
       walkingSpread: 0.017968038
       runningSpread: 0.04387378
+      jumpingSpread: 0.13585444
       patternData: "0.00100247393375435\t0.0303383187988032\r\n-0.0106622768049011\t0.0176781589471016\r\n-0.00592364230597101\t0.015035980825918\r\n0.0055591182282176\t0.00865751602053654\r\n-0.0257852127483624\t0.00419214056949231\r\n-0.000637938085003691\t9.1134024253869E-05\r\n-0.005969207706987\t-0.00587807688035732\r\n-0.0290180392138593\t-0.0214587683955208\r\n0.0186347507150266\t-0.0253753779368948\r\n"
     - angles: []
       spread: 0.0071239155
       crouchingSpread: 0.00527131
       walkingSpread: 0.017968174
       runningSpread: 0.043873914
+      jumpingSpread: 0.13596237
       patternData: "-0.0183614421851456\t0.0354362952602812\r\n0.0129403091396674\t0.00961434333858943\r\n-0.0239636602912027\t0.0077918014057265\r\n-0.00546798697415355\t0.00701720470626885\r\n-0.0302927936513162\t0.0053312899232369\r\n0.00236948020271849\t-0.000956906965244054\r\n0.0097510315592077\t-0.00464780178215902\r\n-0.0179514742591113\t-0.00542242131296822\r\n0.0152182071693965\t-0.0305204181289396\r\n"
     - angles: []
       spread: 0.0071146046
       crouchingSpread: 0.0052691023
       walkingSpread: 0.017958863
       runningSpread: 0.043864604
+      jumpingSpread: 0.13591352
       patternData: "0.0172226275773166\t0.0285172167871866\r\n0.00811075032310388\t0.015582656811988\r\n-0.023052823657187\t0.0116646260647073\r\n-9.1134024253869E-05\t0.0068349454011136\r\n-0.000820206036627581\t0.00173154473508214\r\n-0.0194546594361197\t0.000318969074954158\r\n-0.00865751602053654\t-0.00501232937175591\r\n-0.00469336780039614\t-0.0263316456629755\r\n-0.0163115435811059\t-0.0342529909520884\r\n"
     - angles: []
       spread: 0.0071237995
       crouchingSpread: 0.0052713044
       walkingSpread: 0.017968057
       runningSpread: 0.043873798
+      jumpingSpread: 0.13597518
       patternData: "0.0146715251550646\t0.0229161948253958\r\n-0.022324126731278\t0.0186347507150266\r\n0.00209607949389371\t0.00628816480947172\r\n0.00154927717704782\t0.00391874299418892\r\n-0.00984215683750136\t-0.00136700951607486\r\n-0.0108445237775428\t-0.00811075032310388\r\n-0.0112090155495108\t-0.0142159500964179\r\n-0.0314308841678268\t-0.023417162986338\r\n-0.00524015844495268\t-0.0334337238608277\r\n"
     - angles: []
       spread: 0.007123916
       crouchingSpread: 0.00527131
       walkingSpread: 0.017968174
       runningSpread: 0.043873917
+      jumpingSpread: 0.13598849
       patternData: "0.0097510315592077\t0.0164026532243898\r\n0.00173154473508214\t0.00993328195233511\r\n0.0115735043430477\t0.00993328195233511\r\n0.0206844731250863\t0.00883977011883054\r\n0.0334337238608277\t0.00738172190584901\r\n-9.1134024253869E-05\t0.00100247393375435\r\n-0.0275155292549743\t-0.00045567009099313\r\n0.00309854691679598\t-0.00410100811200583\r\n0.000820206036627581\t-0.0383941145078644\r\n"
     - angles: []
       spread: 0.0071146046
       crouchingSpread: 0.0052691023
       walkingSpread: 0.017958865
       runningSpread: 0.043864604
+      jumpingSpread: 0.13591903
       patternData: "0.0309301342004799\t0.00501232937175591\r\n0.0119379900613452\t0.00391874299418892\r\n-0.00647042544060776\t0.00136700951607486\r\n0.00127587565077086\t0.000911339992760009\r\n-0.00045567009099313\t0.000820206036627581\r\n0.0119835505550833\t0.000683505077356479\r\n-0.00483006573741394\t-0.00246061369562782\r\n-0.00391874299418892\t-0.0035542119895621\r\n0.0112090155495108\t-0.022825108461816\r\n"
   - name: mag-7
     baseDamage: 30
@@ -4219,30 +4466,35 @@ MonoBehaviour:
       crouchingSpread: 0.0052500023
       walkingSpread: 0.011718361
       runningSpread: 0.022990003
+      jumpingSpread: 0.057090063
       patternData: "0.00505789522877976\t0.0222785823780484\r\n0.0296099014718313\t0.021640951812492\r\n0.00911315016136349\t0.0153548762643573\r\n-0.00501232937175591\t0.00934096582463589\r\n0.00323524658234011\t0.0047844997782128\r\n0.00359977841878467\t0.00154927717704782\r\n0.0274699966759703\t-0.00205051267752061\r\n-0.0189991577501204\t-0.0261039671745708\r\n"
     - angles: []
       spread: 0.0070792385
       crouchingSpread: 0.0052609392
       walkingSpread: 0.011797599
       runningSpread: 0.023069238
+      jumpingSpread: 0.05906867
       patternData: "0.023052823657187\t0.0334337238608277\r\n0.0028251472434036\t0.0317950560731181\r\n0.0135325765022443\t0.00524015844495268\r\n-0.00246061369562782\t0.00100247393375435\r\n-0.00592364230597101\t-0.00118474176427358\r\n-0.0217775884329979\t-0.00250618042684994\r\n-0.0165848716924282\t-0.00829300611056794\r\n0.00100247393375435\t-0.02778872232589\r\n"
     - angles: []
       spread: 0.007087315
       crouchingSpread: 0.0052624205
       walkingSpread: 0.011805675
       runningSpread: 0.023077315
+      jumpingSpread: 0.05949305
       patternData: "-0.0184980967955662\t0.0102977807468128\r\n-0.000637938085003691\t0.0097510315592077\r\n0.0125758323774066\t0.0097510315592077\r\n0.027060198360627\t0.00920427654151333\r\n0.0337978481764853\t0.0057413804578219\r\n0.000637938085003691\t0.00127587565077086\r\n-0.0132136644603199\t-0.000273402066706364\r\n-0.0261495030895636\t-0.0261495030895636\r\n"
     - angles: []
       spread: 0.0070798565
       crouchingSpread: 0.0052609523
       walkingSpread: 0.011798216
       runningSpread: 0.023069857
+      jumpingSpread: 0.059493568
       patternData: "-0.023052823657187\t0.0239181193914395\r\n-0.0195913083761089\t0.0194091096277278\r\n-0.0132136644603199\t0.00993328195233511\r\n0.0055591182282176\t0.00209607949389371\r\n-0.0097510315592077\t0.00045567009099313\r\n0.00118474176427358\t-0.00209607949389371\r\n-0.0200012507852232\t-0.00587807688035732\r\n-0.0303838438204971\t-0.0175870532540922\r\n"
     - angles: []
       spread: 0.00708732
       crouchingSpread: 0.0052624205
       walkingSpread: 0.01180568
       runningSpread: 0.02307732
+      jumpingSpread: 0.059570577
       patternData: "-0.00045567009099313\t0.026695925555119\r\n0.0214132223181973\t0.0249655345990911\r\n-0.0028251472434036\t0.00118474176427358\r\n0.019545758810499\t0.000136701035907738\r\n-0.0209122096447347\t-0.00277958058900631\r\n0.0117101868529884\t-0.00318968004034124\r\n0.00209607949389371\t-0.00428327295734593\r\n-0.00847526134708062\t-0.0375295883975919\r\n"
   - name: sawedoff
     baseDamage: 32
@@ -4259,43 +4511,122 @@ MonoBehaviour:
       crouchingSpread: 0.00525006
       walkingSpread: 0.011957376
       runningSpread: 0.023800002
+      jumpingSpread: 0.06470001
       patternData: "0.0287903944462334\t0.036437475347987\r\n-0.0358003690754086\t0.0322502590802627\r\n-0.0570789645643973\t0.0205022823632\r\n-0.000911339992760008\t0.0109812085349204\r\n-0.0153548762643573\t0.0022327798900301\r\n0.00628816480947171\t-0.00300741374178213\r\n0.022825108461816\t-0.0192269095905513\r\n-0.0257396759724143\t-0.0285172167871866\r\n"
     - angles: []
       spread: 0.007132299
       crouchingSpread: 0.0052737207
       walkingSpread: 0.012089675
       runningSpread: 0.023932299
+      jumpingSpread: 0.06686037
       patternData: "0.010480029123957\t0.0481726012372059\r\n0.0392585832018108\t0.0418061445942393\r\n-0.00318968004034124\t0.00446553751810003\r\n-0.0316129711689591\t-0.00264288055731552\r\n-0.00227834667045052\t-0.0068349454011136\r\n0.00820187828494823\t-0.0157648800869144\r\n-0.0192724597200092\t-0.0159471023148043\r\n0.03056594264558\t-0.033752333125354\r\n"
     - angles: []
       spread: 0.0071449964
       crouchingSpread: 0.005276527
       walkingSpread: 0.012102373
       runningSpread: 0.023944996
+      jumpingSpread: 0.067413755
       patternData: "-0.0538990874954613\t0.023052823657187\r\n-0.0378026027677838\t0.021595406092475\r\n0.00227834667045052\t0.0184980967955662\r\n0.0368925331694651\t0.00305298033562802\r\n-0.0137603691362955\t0.00154927717704782\r\n-0.00154927717704782\t-0.00391874299418892\r\n-0.00829300611056794\t-0.0248744571577275\r\n0.0101155316855712\t-0.0497181707767275\r\n"
     - angles: []
       spread: 0.0071342727
       crouchingSpread: 0.005273785
       walkingSpread: 0.012091649
       runningSpread: 0.023934271
+      jumpingSpread: 0.06746354
       patternData: "0.0137603691362955\t0.0609840826632124\r\n-0.0283350959800479\t0.0123024726075996\r\n-0.014944867278924\t0.00847526134708062\r\n0.0068349454011136\t0.00756397977606047\r\n0.0483089843933437\t-0.0028251472434036\r\n0.00246061369562782\t-0.00628816480947172\r\n0.0418061445942393\t-0.00774623714374422\r\n0.017040413017241\t-0.0231894516281568\r\n"
     - angles: []
       spread: 0.007145026
       crouchingSpread: 0.005276527
       walkingSpread: 0.0121024
       runningSpread: 0.023945026
+      jumpingSpread: 0.06755151
       patternData: "0.0252387644315449\t0.0461266415013606\r\n0.00168597785588634\t0.0241458228941815\r\n0.0163570984366958\t0.0233716209082588\r\n0.0388946034639392\t0.0176781589471016\r\n-0.0119379900613452\t0.00264288055731552\r\n0.00624259958593681\t-0.00350864554558025\r\n-0.0261495030895636\t-0.0210488505166861\r\n0.0442622079078329\t-0.0387581083987495\r\n"
     - angles: []
       spread: 0.007145184
       crouchingSpread: 0.0052765342
       walkingSpread: 0.012102558
       runningSpread: 0.023934273
+      jumpingSpread: 0.06749416
       patternData: "0.015582656811988\t0.0415332169727748\r\n-0.051308949888452\t0.0341164496014865\r\n0.0488544989824693\t0.0232349940929728\r\n-0.0196368578604139\t0.0194091096277278\r\n0.00446553751810003\t0.0175870532540922\r\n0.00537685562926627\t0.00100247393375435\r\n0.00483006573741394\t-0.0124847126609609\r\n0.0197735058236116\t-0.0247833793036046\r\n"
     - angles: []
       spread: 0.0071342755
       crouchingSpread: 0.005273785
       walkingSpread: 0.01209165
       runningSpread: 0.023945026
+      jumpingSpread: 0.06755851
       patternData: "0.036847028072075\t0.0251932263867812\r\n0.0241913632949649\t0.0148993104122747\r\n-0.0513543969397411\t0.00729059278607863\r\n0.00173154473508214\t0.00410100811200583\r\n-0.00701720470626885\t-0.0112090155495108\r\n-0.00382761033688583\t-0.0175870532540922\r\n0.0560342721241048\t-0.023417162986338\r\n-0.0128947497304279\t-0.0286538061514363\r\n"
+  - name: awp
+    baseDamage: 115
+    armorRatio: 1.95
+    rangeModifier: 0.99
+    maxRange: 8192
+    headMultiplier: 4
+    chestMultiplier: 1
+    stomachMultiplier: 1.25
+    legMultiplier: 0.75
+    patterns:
+    - angles:
+      - {x: 0, y: 0}
+      spread: 0.0022000042
+      crouchingSpread: 0.0017000004
+      walkingSpread: 0.05427605
+      runningSpread: 0.17868002
+      jumpingSpread: 0.13717778
+      patternData: 
+  - name: awp ns
+    baseDamage: 115
+    armorRatio: 1.95
+    rangeModifier: 0.99
+    maxRange: 8192
+    headMultiplier: 4
+    chestMultiplier: 1
+    stomachMultiplier: 1.25
+    legMultiplier: 0.75
+    patterns:
+    - angles:
+      - {x: 0, y: 0}
+      spread: 0.081000045
+      crouchingSpread: 0.060800646
+      walkingSpread: 0.13307607
+      runningSpread: 0.25748006
+      jumpingSpread: 0.21483001
+      patternData: 
+  - name: ak47
+    baseDamage: 36
+    armorRatio: 1.55
+    rangeModifier: 0.98
+    maxRange: 8192
+    headMultiplier: 4
+    chestMultiplier: 1
+    stomachMultiplier: 1.25
+    legMultiplier: 0.75
+    patterns:
+    - angles:
+      - {x: 0, y: 0}
+      spread: 0.0070100003
+      crouchingSpread: 0.005410002
+      walkingSpread: 0.058667023
+      runningSpread: 0.18207
+      jumpingSpread: 0.14777026
+      patternData: 
+  - name: m4a1
+    baseDamage: 33
+    armorRatio: 1.4
+    rangeModifier: 0.97
+    maxRange: 8192
+    headMultiplier: 4
+    chestMultiplier: 1
+    stomachMultiplier: 1.25
+    legMultiplier: 0.75
+    patterns:
+    - angles:
+      - {x: 0, y: 0}
+      spread: 0.0055000004
+      crouchingSpread: 0.0047000013
+      walkingSpread: 0.04618588
+      runningSpread: 0.14338
+      jumpingSpread: 0.10277001
+      patternData: 
   time: 0
   interpolate: 1
   weaponIndex: 0
@@ -4311,9 +4642,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a677cdc7fb74564f897e128a4762691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneController: {fileID: 0}
   weaponLoader: {fileID: 1589100928}
   frames: 15
   path: Frames/
+--- !u!114 &1589100930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589100925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b4bc0054c29014aa2491101d0c7d8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  build: 1
+  asset: {fileID: 4900000, guid: 89336f61b803b7146b189be8e00ac524, type: 3}
+  framerate: 10
+  smoothing: 5
+  bones: []
+  frames: []
 --- !u!1 &1591382895
 GameObject:
   m_ObjectHideFlags: 0
@@ -4563,7 +4913,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 30, y: -30}
-  m_SizeDelta: {x: 100, y: 24}
+  m_SizeDelta: {x: 130, y: 24}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1657419441
 MonoBehaviour:
@@ -4822,6 +5172,8 @@ MonoBehaviour:
     - m_Text: show spread
       m_Image: {fileID: 0}
     - m_Text: average
+      m_Image: {fileID: 0}
+    - m_Text: flat average
       m_Image: {fileID: 0}
     - m_Text: minimum
       m_Image: {fileID: 0}
@@ -5559,3 +5911,103 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2063859565}
   m_CullTransparentMesh: 1
+--- !u!1 &2075780858 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8164078558771037576, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+  m_PrefabInstance: {fileID: 2098011128}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &2075780862
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2075780858}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -2432090755550338912, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+--- !u!1001 &2098011128
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 88b753d3faee6b84fae369571875765d, type: 2}
+    - target: {fileID: 919132149155446097, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_Name
+      value: de_dust2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 17338f0c166b2d945866e44e62f702b2, type: 3}
