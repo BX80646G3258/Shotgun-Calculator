@@ -112,7 +112,6 @@ namespace ShotgunCalculator
             weaponLoader.movementState = (WeaponLoader.MovementState)movementDropdown.value;
             weaponLoader.weaponIndex = weaponDropdown.value;
 
-            lastMousePos = Input.mousePosition;
             lastFixedSampling = useFixedSampling;
         }
 
