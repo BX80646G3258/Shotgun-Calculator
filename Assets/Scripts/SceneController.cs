@@ -13,17 +13,26 @@ namespace ShotgunCalculator
     {
         new public Camera camera;
         public WeaponLoader weaponLoader;
+        public AnimationLoader animationLoader;
         public Material spreadMat;
         public TMP_Dropdown movementDropdown;
         public TMP_Dropdown weaponDropdown;
         public TMP_Dropdown spreadDropdown;
+        public TMP_Dropdown animationDropdown;
         public Slider shotSlider;
         public RectTransform crosshair;
+        public MeshCollider mapCollider;
+        public Transform target;
+        public float taregtTurnSensitivity = -.5f;
+        public float targetPanSensitivity = .01f;
         public float shotSmoothing = .5f;
-        string[] spreadModes = { "_MODE_NOSPREAD", "_MODE_SHOWSPREAD", "_MODE_AVERAGE", "_MODE_FLATAVERAGE", "_MODE_MINIMUM", "_MODE_MAXIMUM" };
+        public TextAsset[] animations;
+        string[] spreadModes = { "_MODE_NOSPREAD", "_MODE_SHOWSPREAD", "_MODE_AVERAGE", "_MODE_MINIMUM", "_MODE_MAXIMUM" };
         int samplingID = Shader.PropertyToID("_Samples");
         int shotIndex;
         float shotTime;
+        bool lastFixedSampling;
+        Vector3 mouseDelta;
         // Start is called before the first frame update
         void Start()
         {
@@ -33,25 +42,44 @@ namespace ShotgunCalculator
             foreach (Weapon weapon in weaponLoader.weapons)
                 weaponDropdown.options.Add(new OptionData(weapon.name));
 
+            foreach (TextAsset textAsset in animations)
+                animationDropdown.options.Add(new OptionData(textAsset.name));
+
             movementDropdown.value = 0;
             weaponDropdown.value = 0;
+            animationDropdown.value = 0;
+
             SetSpreadMode(spreadDropdown.value);
+            UpdateAnimation();
 
-            Cursor.visible = false;
-
-            SetDynamicSamples();
+            lastFixedSampling = true;
         }
 
         // Update is called once per frame
         void Update()
         {
+            Cursor.visible = false;
+            
             crosshair.position = Input.mousePosition;
+            mouseDelta = new Vector3(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"), 0);
 
-            if (Input.GetMouseButtonDown(1))
-                SetFixedSamples();
+            bool useFixedSampling = false;
 
-            if (Input.GetMouseButtonUp(1))
-                SetDynamicSamples();
+            useFixedSampling |= Input.GetMouseButton(1);
+            useFixedSampling |= Input.GetMouseButton(2);
+
+
+            if (Input.GetMouseButton(2))
+            {
+                if (Input.GetKey(KeyCode.LeftAlt))
+                    PlaceTarget();
+                else if (Input.GetKey(KeyCode.LeftShift))
+                    PanTarget();
+                else if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand))
+                    RaiseTarget();
+                else
+                    TurnTarget();
+            }
 
             int patternCount = weaponLoader.CurrentWeapon().patterns.Length;
             if (patternCount > 1)
@@ -78,25 +106,28 @@ namespace ShotgunCalculator
                 weaponLoader.time = 0;
             }
 
-            // if (Input.GetKeyDown(KeyCode.Tab))
-            //     IncLoop(movementDropdown, 1);
-            // if (Input.GetKeyDown(KeyCode.Space))
-            //     IncLoop(weaponDropdown, 1);
+            if (useFixedSampling != lastFixedSampling)
+                SetFixedSampling(useFixedSampling);
 
             weaponLoader.movementState = (WeaponLoader.MovementState)movementDropdown.value;
             weaponLoader.weaponIndex = weaponDropdown.value;
+
+            lastMousePos = Input.mousePosition;
+            lastFixedSampling = useFixedSampling;
         }
 
-        void SetFixedSamples()
+        void SetFixedSampling(bool b)
         {
-            spreadMat.EnableKeyword("_SAMPLES_FIXED");
-            spreadMat.DisableKeyword("_SAMPLES_DYNAMIC");
-        }
-
-        void SetDynamicSamples()
-        {
-            spreadMat.DisableKeyword("_SAMPLES_FIXED");
-            spreadMat.EnableKeyword("_SAMPLES_DYNAMIC");
+            if (b)
+            {
+                spreadMat.EnableKeyword("_SAMPLES_FIXED");
+                spreadMat.DisableKeyword("_SAMPLES_DYNAMIC");
+            }
+            else
+            {
+                spreadMat.DisableKeyword("_SAMPLES_FIXED");
+                spreadMat.EnableKeyword("_SAMPLES_DYNAMIC");
+            }
         }
 
         void IncLoop(TMP_Dropdown dropdown, int step)
@@ -122,6 +153,41 @@ namespace ShotgunCalculator
                 else
                     spreadMat.DisableKeyword(keyword);
             }
+        }
+
+        public void UpdateAnimation()
+        {
+            animationLoader.asset = animations[animationDropdown.value];
+            animationLoader.rebuild = true;
+        }
+
+        void PlaceTarget()
+        {
+            RaycastHit hitInfo;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            // Debug.Log("placetarget: " + Input.mousePosition + "\t" + ray);
+            if (mapCollider.Raycast(ray, out hitInfo, float.MaxValue))
+            {
+                // Debug.DrawRay(hitInfo.point, Vector3.up);
+                Debug.DrawLine(camera.transform.position, hitInfo.point, Color.green);
+                target.transform.position = hitInfo.point;
+            }
+        }
+
+        void TurnTarget()
+        {
+            target.transform.rotation *= Quaternion.Euler(0, mouseDelta.x * taregtTurnSensitivity, 0);
+        }
+
+        void PanTarget()
+        {
+            Quaternion axisRotation = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0);
+            target.transform.position += targetPanSensitivity * (axisRotation * new Vector3(mouseDelta.x, 0, mouseDelta.y));
+        }
+
+        void RaiseTarget()
+        {
+            target.transform.position += targetPanSensitivity * mouseDelta.y * Vector3.up;
         }
     }
 }
