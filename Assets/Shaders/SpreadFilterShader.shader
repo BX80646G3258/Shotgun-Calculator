@@ -5,7 +5,7 @@ Shader "Calculator/SpreadFilterShader"
         // _Radius ("radius", Float) = .0062
         _Quality ("quality", Range(0, 1)) = 1
         _MaxSamples ("max samples", Range(1, 16000)) = 1000
-        [KeywordEnum(NoSpread, ShowSpread, Average, FlatAverage, Minimum, Maximum)] _Mode ("Mode", Float) = 0
+        [KeywordEnum(NoSpread, ShowSpread, Average, Minimum, Maximum)] _Mode ("Mode", Float) = 0
         [KeywordEnum(Dynamic, Fixed)] _Samples ("Sampling", float) = 0
     }
     SubShader
