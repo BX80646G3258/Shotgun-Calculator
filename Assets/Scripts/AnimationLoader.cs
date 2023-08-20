@@ -9,7 +9,7 @@ namespace ShotgunCalculator
 {
     public class AnimationLoader : MonoBehaviour
     {
-        public bool build;
+        public bool rebuild;
         public TextAsset asset;
         [Range(.01f, 60)]
         public float framerate = 30;
@@ -37,13 +37,12 @@ namespace ShotgunCalculator
 
         void Start()
         {
-            build = true;
             hitboxLoader = gameObject.GetComponent<HitboxLoader>();
         }
 
         public void Build()
         {
-            build = false;
+            rebuild = false;
             ParseBones();
             ParseFrames();
 
@@ -54,7 +53,7 @@ namespace ShotgunCalculator
 
         void Update()
         {
-            if (build && hitboxLoader.ready)
+            if (rebuild && hitboxLoader.ready)
                 Build();
 
             if (frames != null && frames.Length > 0)
@@ -117,17 +116,14 @@ namespace ShotgunCalculator
 
                 while ((line = reader.ReadLine()) != null && !line.TrimStart().StartsWith("skeleton"))
                 {
-                    Debug.Log("skipping:\t" + line);
+                    // Debug.Log("skipping:\t" + line);
                 }
-                Debug.Log(line);
-                reader.Peek();
-                // line = reader.ReadLine();
-                Debug.Log(line);
+                
                 while (reader.Peek() > 0)
                 {
                     while (!line.TrimStart().StartsWith("time") && (line = reader.ReadLine()) != null)
                     {
-                        Debug.Log("skipping:\t" + line);
+                        // Debug.Log("skipping:\t" + line);
                     }
 
                     AnimationFrame frame = new AnimationFrame();
