@@ -24,7 +24,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 8a924094c4bd45c41b22e6551843edf3, type: 3}
   m_ValidKeywords:
   - _MODE_AVERAGE
-  - _SAMPLES_DYNAMIC
+  - _SAMPLES_FIXED
   m_InvalidKeywords:
   - _EXACT_DISABLED
   - _MODE_DISABLED
